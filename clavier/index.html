@@ -15,7 +15,7 @@
       gap:clamp(8px,1.6vh,16px);padding:clamp(8px,1.6vh,16px);
       transition:background .3s,color .3s
     }
-    .header{grid-column:1/-1;background:rgba(255,255,255,.96);border-radius:20px;padding:clamp(8px,1.6vh,16px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+    .header{position:relative;grid-column:1/-1;background:rgba(255,255,255,.96);border-radius:20px;padding:clamp(8px,1.6vh,16px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.1)}
     .header h1{color:#ff7a59;font-size:clamp(1.2rem,3vh,2rem);margin-bottom:4px;text-shadow:2px 2px 4px rgba(0,0,0,.08)}
     .sub{font-size:clamp(.9rem,2vh,1.1rem);color:#f76707}
 
@@ -94,6 +94,7 @@
 </head>
 <body>
   <div class="header">
+    <a href="../" style="position:absolute;top:clamp(8px,1.6vh,16px);right:clamp(8px,1.6vh,16px);padding:8px 12px;background:#ff7a59;color:white;text-decoration:none;border-radius:12px;font-size:clamp(.8rem,1.8vh,1rem);">Retour au menu</a>
     <h1>🎹 Tap Tap Clavier — Cassandre</h1>
     <div class="sub">Apprendre à taper en jouant (5 ans)</div>
   </div>
