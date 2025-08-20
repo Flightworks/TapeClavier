@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Applis Cassandre — Accueil</title>
+  <meta name="description" content="Petites applications éducatives : calcul et clavier pour enfant.">
+  <style>
+    :root{
+      --bg: #f7f7fb; --card:#ffffff; --text:#222; --muted:#6b7280;
+      --brand1:#ff7a59; --brand2:#f76707; --ok:#2d5a27;
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);}
+    .wrap{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto}
+    header{backdrop-filter:saturate(1.2) blur(6px);background:rgba(255,255,255,.86);padding:18px 16px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    h1{margin:0;font-size:clamp(1.25rem,3.2vw,2rem);color:var(--brand1)}
+    .sub{color:var(--brand2);font-weight:600}
+    main{padding:28px 16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:1100px;margin:0 auto}
+    .card{background:rgba(255,255,255,.96);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.12);display:flex;flex-direction:column;gap:12px;transition:transform .15s ease, box-shadow .15s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,.16)}
+    .card h2{margin:0;font-size:1.25rem;color:#333}
+    .card p{margin:0;color:#444;line-height:1.4}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(45deg,var(--brand1),var(--brand2));color:#fff;border-radius:999px;padding:6px 12px;font-weight:700}
+    .go{margin-top:8px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;color:#fff;background:#111;border-radius:12px;padding:10px 14px}
+    .go span{font-size:1.2rem}
+    footer{color:#333;display:flex;gap:10px;align-items:center;justify-content:center;padding:18px 10px}
+    footer a{color:#222}
+    .note{color:#222;background:rgba(255,255,255,.88);border-radius:12px;padding:10px 12px;max-width:1100px;margin:0 auto 16px auto}
+    code{background:#111;color:#fff;border-radius:6px;padding:2px 6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🌟 Applis Cassandre</h1>
+      <div class="sub">Deux mini‑apps pour apprendre en s'amusant</div>
+    </header>
+    <main>
+      <div class="note">
+        Conseil : place ce fichier à la racine du dépôt GitHub Pages.
+        Les apps sont dans <code>/maths/</code> et <code>/clavier/</code>.
+      </div>
+      <section class="grid">
+        <article class="card">
+          <div class="pill">🧮 Entraînement Calcul</div>
+          <h2>Coach de maths (CE1)</h2>
+          <p>Opérations au choix, niveaux, enchaînement, voix et export CSV.</p>
+          <a class="go" href="./maths/" aria-label="Ouvrir l'application de calcul"><span>Ouvrir</span> ➜</a>
+        </article>
+        <article class="card">
+          <div class="pill">🎹 Clavier</div>
+          <h2>Tap Tap Clavier — Cassandre</h2>
+          <p>Apprendre à taper : lettres, mots, niveau auto, Enter pour enchaîner.</p>
+          <a class="go" href="./clavier/" aria-label="Ouvrir l'application de clavier"><span>Ouvrir</span> ➜</a>
+        </article>
+      </section>
+    </main>
+    <footer><span>Fait avec ❤️</span><span>•</span><a href="./">Accueil</a></footer>
+  </div>
+</body>
+</html>

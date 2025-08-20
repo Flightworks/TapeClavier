@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Maths de Romane ✨</title>
+    <style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Comic Sans MS',cursive,sans-serif;
+    background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    height:100vh; overflow:hidden;
+    display:grid;
+    grid-template-columns:280px 1fr 280px;
+    grid-template-rows:auto 1fr;
+    gap:clamp(8px,1.6vh,16px);
+    padding:clamp(8px,1.6vh,16px);
+  }
+  .header{grid-column:1 / -1;background:rgba(255,255,255,.95);border-radius:20px;padding:clamp(8px,1.6vh,16px);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.1)}
+  .header h1{color:#667eea;font-size:clamp(1.2rem,3vh,2rem);margin-bottom:clamp(4px,1vh,10px);text-shadow:2px 2px 4px rgba(0,0,0,.1)}
+  .time-display{font-size:clamp(.9rem,2vh,1.1rem);color:#764ba2;margin-bottom:clamp(6px,1vh,12px)}
+
+  .left-panel,.main-area,.right-panel{background:rgba(255,255,255,.95);border-radius:20px;padding:clamp(10px,1.8vh,18px);box-shadow:0 10px 30px rgba(0,0,0,.1);min-height:0}
+  .left-panel,.right-panel{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,18px);overflow:auto}
+  .main-area{padding:clamp(12px,2vh,22px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+
+  .panel-title{font-size:clamp(1rem,2.2vh,1.2rem);color:#667eea;font-weight:bold;margin-bottom:clamp(6px,1vh,10px);text-align:center;border-bottom:2px solid #f0f0f0;padding-bottom:clamp(6px,1vh,10px)}
+
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(6px,1vh,12px)}
+  .stat-card{background:linear-gradient(45deg,#ff9a9e,#fad0c4);border-radius:15px;padding:clamp(8px,1.4vh,14px);text-align:center;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,.3)}
+  .stat-number{font-size:clamp(1.1rem,2.4vh,1.6rem);font-weight:bold;display:block}
+  .stat-label{font-size:.9em;margin-top:4px}
+
+  .difficulty-section{background:#f8f9ff;border-radius:15px;padding:clamp(10px,1.6vh,16px)}
+  .difficulty-controls{display:flex;align-items:center;justify-content:center;gap:clamp(6px,1vh,12px);margin-bottom:clamp(6px,1vh,12px)}
+  .difficulty-btn{background:#ff6b6b;color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,.2);transition:transform .2s}
+  .difficulty-btn:hover{transform:scale(1.08)}
+  .difficulty-display{background:linear-gradient(45deg,#4ecdc4,#44a08d);color:#fff;padding:8px 14px;border-radius:20px;font-weight:bold;font-size:clamp(.9rem,2vh,1rem)}
+  .auto-mode{display:flex;align-items:center;gap:10px;margin-top:6px;justify-content:center}
+  .toggle-switch{position:relative;width:50px;height:25px;background:#ddd;border-radius:25px;cursor:pointer;transition:background .3s}
+  .toggle-switch.active{background:#4ecdc4}
+  .toggle-slider{position:absolute;top:2px;left:2px;width:21px;height:21px;background:#fff;border-radius:50%;transition:transform .3s}
+  .toggle-switch.active .toggle-slider{transform:translateX(25px)}
+
+  .problem{background:linear-gradient(45deg,#ffecd2,#fcb69f);border-radius:20px;padding:clamp(12px,2.5vh,24px);margin:clamp(10px,1.6vh,16px) 0;font-size:clamp(1.4rem,6vh,2.6rem);font-weight:bold;color:#333;text-shadow:1px 1px 2px rgba(255,255,255,.5);min-height:clamp(80px,20vh,160px);display:flex;align-items:center;justify-content:center}
+
+  .answer-section{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.4vh,14px);margin:clamp(10px,1.6vh,16px) 0}
+  .answer-input{font-size:clamp(1.2rem,4vh,2rem);padding:clamp(8px,1.4vh,14px);border:3px solid #ddd;border-radius:20px;width:clamp(120px,20vw,220px);text-align:center;font-family:inherit;background:#f8f9ff;transition:border-color .3s}
+  .answer-input:focus{outline:none;border-color:#667eea;box-shadow:0 0 20px rgba(102,126,234,.3)}
+
+  .btn-group{display:flex;gap:clamp(6px,1vh,12px)}
+  .btn{font-size:clamp(1rem,2.2vh,1.1rem);padding:clamp(8px,1.4vh,12px) clamp(14px,2.5vh,22px);border:none;border-radius:25px;cursor:pointer;font-family:inherit;font-weight:bold;transition:transform .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.2)}
+  .btn-primary{background:linear-gradient(45deg,#667eea,#764ba2);color:#fff}
+  .btn-secondary{background:linear-gradient(45deg,#ffecd2,#fcb69f);color:#333}
+  .btn-success{background:linear-gradient(45deg,#a8edea,#fed6e3);color:#2d5a27}
+
+  .feedback{margin:clamp(8px,1.4vh,14px) 0;padding:clamp(10px,1.6vh,14px);border-radius:20px;font-size:clamp(1rem,2.2vh,1.1rem);font-weight:bold;min-height:clamp(40px,6vh,60px);display:flex;align-items:center;justify-content:center}
+  .feedback.correct{background:linear-gradient(45deg,#a8edea,#fed6e3);color:#2d5a27}
+  .feedback.incorrect{background:linear-gradient(45deg,#ffeaa7,#fab1a0);color:#d63031}
+
+  .achievements{background:#f8f9ff;border-radius:15px;padding:clamp(10px,1.6vh,16px)}
+  .achievement-item{display:flex;align-items:center;gap:10px;padding:10px;margin:4px 0;border-radius:10px;transition:background .3s}
+  .achievement-item.unlocked{background:linear-gradient(45deg,#a8edea,#fed6e3);color:#2d5a27}
+  .achievement-item.locked{background:#f0f0f0;color:#999}
+
+  .history{max-height:30vh;overflow:auto}
+  .history-item{display:flex;justify-content:space-between;align-items:center;padding:8px;margin:3px 0;border-radius:8px;font-size:.9em}
+  .history-item.correct{background:#e8f5e8;color:#2d5a27}
+  .history-item.incorrect{background:#ffe8e8;color:#d63031}
+
+  .stars{font-size:clamp(1.2rem,3vh,1.6rem);margin:clamp(6px,1vh,10px) 0}
+  .star{display:inline-block;margin:0 6px;transition:transform .3s}
+  .star.animate{animation:bounce .6s ease-in-out}
+  @keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-16px)}60%{transform:translateY(-8px)}}
+
+  .progress-section{background:#f8f9ff;border-radius:15px;padding:clamp(10px,1.6vh,16px)}
+  .progress-bar{background:#e0e0e0;border-radius:15px;height:12px;margin:8px 0;overflow:hidden}
+  .progress-fill{background:linear-gradient(90deg,#667eea,#764ba2);height:100%;transition:width .3s ease;border-radius:15px}
+  .timer-display{background:linear-gradient(45deg,#667eea,#764ba2);color:#fff;padding:clamp(10px,1.6vh,14px);border-radius:15px;text-align:center;font-size:clamp(1rem,2.2vh,1.1rem);font-weight:bold}
+  .session-stats{display:grid;grid-template-columns:1fr 1fr;gap:clamp(6px,1vh,10px);margin-top:10px}
+  .session-stat{background:#f0f8ff;padding:clamp(8px,1.2vh,12px);border-radius:10px;text-align:center}
+  .session-stat-number{font-size:clamp(1rem,2.2vh,1.1rem);font-weight:bold;color:#667eea}
+
+  .celebration{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1000}
+  .confetti{position:absolute;width:10px;height:10px;background:#ff6b6b;animation:confetti-fall 3s linear forwards}
+  @keyframes confetti-fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
+
+  .mode-selector{display:flex;gap:clamp(6px,1vh,10px);margin-bottom:clamp(8px,1.4vh,12px)}
+  .mode-btn{flex:1;padding:clamp(8px,1.2vh,12px);border:2px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-family:inherit;font-weight:bold;transition:all .3s}
+  .mode-btn.active{border-color:#667eea;background:linear-gradient(45deg,#667eea,#764ba2);color:#fff}
+
+  @media (max-width:1200px){ body{grid-template-columns:240px 1fr 240px} }
+  @media (max-width:900px){
+    body{grid-template-columns:1fr;grid-template-rows:auto 1fr auto auto}
+    .left-panel,.right-panel{order:2;height:32vh;overflow:auto}
+    .main-area{order:1;height:40vh}
+  }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Les Maths de Romane ✨</h1>
+        <div class="time-display" id="time-display">Bienvenue Romane ! Il est <span id="current-time"></span></div>
+    </div>
+
+    <div class="left-panel">
+        <div class="panel-title">📊 Statistiques</div>
+        <div class="stats-grid">
+            <div class="stat-card"><span class="stat-number" id="score">0</span><div class="stat-label">Score</div></div>
+            <div class="stat-card"><span class="stat-number" id="streak">0</span><div class="stat-label">Série</div></div>
+            <div class="stat-card"><span class="stat-number" id="total">0</span><div class="stat-label">Total</div></div>
+            <div class="stat-card"><span class="stat-number" id="accuracy">0%</span><div class="stat-label">Précision</div></div>
+        </div>
+
+        <div class="difficulty-section">
+            <div class="panel-title">🎯 Difficulté</div>
+            <div class="difficulty-controls">
+                <button class="difficulty-btn" onclick="changeDifficulty(-1)">-</button>
+                <div class="difficulty-display">Niveau <span id="difficulty-level">1</span></div>
+                <button class="difficulty-btn" onclick="changeDifficulty(1)">+</button>
+            </div>
+            <div class="auto-mode">
+                <div class="toggle-switch" id="auto-toggle" onclick="toggleAutoMode()"><div class="toggle-slider"></div></div>
+                <span>Mode automatique</span>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="panel-title">📈 Progrès</div>
+            <div>Précision de la session</div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+            <div class="session-stats">
+                <div class="session-stat"><div class="session-stat-number" id="session-correct">0</div><div>Bonnes réponses</div></div>
+                <div class="session-stat"><div class="session-stat-number" id="session-time">0:00</div><div>Temps de session</div></div>
+            </div>
+        </div>
+
+        <div class="timer-display" id="timer-display">Temps par problème: <span id="problem-timer">--</span>s</div>
+    </div>
+
+    <div class="main-area">
+        <div class="mode-selector">
+            <button class="mode-btn active" id="mode-practice" onclick="setMode('practice')">Entraînement</button>
+            <button class="mode-btn" id="mode-timed" onclick="setMode('timed')">Contre la montre</button>
+            <button class="mode-btn" id="mode-challenge" onclick="setMode('challenge')">Défi</button>
+        </div>
+        <div class="problem" id="problem">Clique sur "Nouveau" pour commencer Romane !</div>
+        <div class="answer-section">
+            <input type="number" class="answer-input" id="answer" placeholder="?" disabled>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="checkAnswer()" id="check-btn" disabled>Vérifier</button>
+                <button class="btn btn-secondary" onclick="newProblem()">Nouveau</button>
+                <button class="btn btn-success" onclick="giveHint()" id="hint-btn" disabled>Indice</button>
+            </div>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="stars" id="stars"></div>
+    </div>
+
+    <div class="right-panel">
+        <div class="panel-title">🏆 Succès</div>
+        <div class="achievements" id="achievements">
+            <div class="achievement-item locked" data-id="first"><span>🌟</span><span>Premier pas (1 bonne réponse)</span></div>
+            <div class="achievement-item locked" data-id="streak5"><span>🔥</span><span>En feu ! (5 d'affilée)</span></div>
+            <div class="achievement-item locked" data-id="streak10"><span>🚀</span><span>Champion (10 d'affilée)</span></div>
+            <div class="achievement-item locked" data-id="fast"><span>⚡</span><span>Éclair (réponse en moins de 3s)</span></div>
+            <div class="achievement-item locked" data-id="perfect10"><span>🎯</span><span>Perfectionniste (100% sur 10 questions)</span></div>
+            <div class="achievement-item locked" data-id="total50"><span>📚</span><span>Studieuse (50 problèmes résolus)</span></div>
+        </div>
+        <div class="panel-title">📝 Historique</div>
+        <div class="history" id="history"><div style="text-align:center;color:#999;padding:20px;">L'historique apparaîtra ici</div></div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+
+<script>
+(function(){
+  // ----- ÉTAT -----
+  let currentProblem = null;
+  let difficulty = 1;
+  let score = 0, streak = 0, total = 0, sessionCorrect = 0;
+  let correctInRow = 0, incorrectInRow = 0;
+  let sessionStartTime = Date.now();
+  let problemStartTime = null;
+  let currentMode = 'practice';
+  let autoMode = true; // adaptif on/off
+  let timedCountdown = null, remainingSeconds = 0;
+  const lastResults = []; // bool, pour 10 dernières
+
+  const ENCOURAGEMENTS = [
+    "Fantastique Romane ! 🌟","Super travail Romane ! 🎉","Bravo Romane ! 👏",
+    "Excellent Romane ! ✨","Parfait ma championne ! 🎯","Génial Romane ! 🚀",
+    "Tu es formidable Romane ! 🌈","Quelle intelligence ! 💫","Impressionnant ! 🌺"
+  ];
+  const TRY_AGAIN = [
+    "Essaie encore Romane ! 💪","Tu peux y arriver ma puce ! 🌈",
+    "Presque Romane ! 🎈","Continue comme ça ! ⭐","Allez Romane ! 🦋"
+  ];
+
+  // ----- PERSISTENCE -----
+  const KEY = 'romane_trainer_v1';
+  function save(){
+    localStorage.setItem(KEY, JSON.stringify({ difficulty, autoMode, score, streak, total, sessionCorrect }));
+  }
+  function load(){
+    try{
+      const d = JSON.parse(localStorage.getItem(KEY)||'null');
+      if(!d) return;
+      difficulty = d.difficulty ?? difficulty;
+      autoMode = d.autoMode ?? autoMode;
+      score = d.score ?? 0; streak = d.streak ?? 0; total = d.total ?? 0; sessionCorrect = d.sessionCorrect ?? 0;
+    }catch(e){}
+  }
+  load();
+
+  // ----- INIT UI -----
+  const $ = (s)=>document.querySelector(s);
+  const els = {
+    time: $('#current-time'), score: $('#score'), streak: $('#streak'), total: $('#total'),
+    accuracy: $('#accuracy'), progressFill: $('#progress-fill'),
+    level: $('#difficulty-level'), autoToggle: $('#auto-toggle'),
+    problem: $('#problem'), answer: $('#answer'), feedback: $('#feedback'), stars: $('#stars'),
+    checkBtn: $('#check-btn'), hintBtn: $('#hint-btn'),
+    sessionTime: $('#session-time'), problemTimer: $('#problem-timer'),
+    history: $('#history'),
+    modePractice: $('#mode-practice'), modeTimed: $('#mode-timed'), modeChallenge: $('#mode-challenge'),
+    celebration: $('#celebration'),
+  };
+
+  els.level.textContent = difficulty;
+  if(autoMode) els.autoToggle.classList.add('active');
+  updateStats();
+  updateTime();
+  setInterval(updateTime, 1000);
+
+  // ----- GÉNÉRATION -----
+  function generateProblem(level){
+    let num1, num2, operator, answer;
+    switch(level){
+      case 1: num1=r(1,5); num2=r(1,5); operator='+'; answer=num1+num2; break;
+      case 2: num1=r(1,10); num2=r(1,10); if(Math.random()>0.5){operator='+';answer=num1+num2;}else{ if(num1<num2)[num1,num2]=[num2,num1]; operator='−'; answer=num1-num2;} break;
+      case 3:
+        if(Math.random()>0.3){ num1=r(1,5); num2=r(1,5); operator='×'; answer=num1*num2; }
+        else{ num1=r(1,15); num2=r(1,15); if(Math.random()>0.5){operator='+';answer=num1+num2;}else{ if(num1<num2)[num1,num2]=[num2,num1]; operator='−'; answer=num1-num2; } }
+        break;
+      case 4:
+        if(Math.random()>0.4){ num1=r(1,8); num2=r(1,8); operator='×'; answer=num1*num2; }
+        else{ num1=r(1,20); num2=r(1,20); if(Math.random()>0.5){operator='+';answer=num1+num2;}else{ if(num1<num2)[num1,num2]=[num2,num1]; operator='−'; answer=num1-num2; } }
+        break;
+      default:
+        const range = Math.min(level*5, 50);
+        if(Math.random()>0.3){ num1=r(1,10); num2=r(1,10); operator='×'; answer=num1*num2; }
+        else{ num1=r(1,range); num2=r(1,range); if(Math.random()>0.5){operator='+';answer=num1+num2;}else{ if(num1<num2)[num1,num2]=[num2,num1]; operator='−'; answer=num1-num2; } }
+    }
+    return { display: `${num1} ${operator} ${num2} = ?`, answer, num1, num2, operator };
+  }
+
+  // ----- FLUX -----
+  window.newProblem = function(){
+    clearCountdown();
+    currentProblem = generateProblem(difficulty);
+    els.problem.textContent = currentProblem.display;
+    els.answer.disabled = false; els.answer.value=''; els.answer.focus();
+    els.checkBtn.disabled = false; els.hintBtn.disabled = false;
+    els.feedback.textContent = ''; els.feedback.className = 'feedback';
+    problemStartTime = Date.now(); els.problemTimer.textContent = '0';
+    if(currentMode==='timed'){ startCountdown(); }
+  }
+
+  let timeoutFlag = false;
+  window.checkAnswer = function(){
+    if(!currentProblem || !problemStartTime) return;
+    const userAnswer = parseInt(els.answer.value, 10);
+    const responseTime = Math.floor((Date.now()-problemStartTime)/1000);
+    const isCorrect = (userAnswer === currentProblem.answer);
+
+    total++;
+    addToHistory(currentProblem, userAnswer, isCorrect, responseTime);
+
+    if(isCorrect){
+      score++; streak++; sessionCorrect++; correctInRow++; incorrectInRow=0;
+      feedbackOK();
+      checkAchievements({isCorrect:true, responseTime});
+      if(streak%10===0) createConfetti(200);
+      if(autoMode && correctInRow>=3 && difficulty<10){ correctInRow=0; changeDifficulty(1, true); }
+    }else{
+      const msg = timeoutFlag ? `Temps écoulé ⏱️ La réponse était ${currentProblem.answer}` : `${pick(TRY_AGAIN)} La réponse était ${currentProblem.answer}`;
+      feedbackKO(msg);
+      streak=0; incorrectInRow++; correctInRow=0;
+      checkAchievements({isCorrect:false, responseTime});
+      if(autoMode && incorrectInRow>=2 && difficulty>1){ incorrectInRow=0; changeDifficulty(-1, true); }
+    }
+
+    lastResults.push(isCorrect); if(lastResults.length>10) lastResults.shift();
+    updateStats(); save();
+
+    // verrouille et enchaîne
+    els.answer.disabled=true; els.checkBtn.disabled=true; els.hintBtn.disabled=true; problemStartTime=null; clearCountdown();
+    setTimeout(()=>{ timeoutFlag=false; newProblem(); }, 2500);
+  }
+
+  window.giveHint = function(){
+    if(!currentProblem) return;
+    const p = currentProblem; let hint='';
+    if(p.operator === '+'){
+      const a = Math.min(p.num1, p.num2), b = Math.max(p.num1, p.num2);
+      hint = `Indice : décompose ${b} en ${10-a} et ${b-(10-a)} pour compléter 10, puis ajoute le reste.`;
+    }else if(p.operator === '−'){
+      hint = `Indice : pense à la distance entre ${p.num1} et ${p.num2}. Compte à rebours de ${p.num1} jusqu'à ${p.num2}.`;
+    }else if(p.operator === '×'){
+      hint = `Indice : ${p.num1} × ${p.num2}, c'est ${p.num2} + ${p.num2} + ... (${p.num1} fois).`;
+    }
+    els.feedback.textContent = hint;
+  }
+
+  // ----- MODES -----
+  window.setMode = function(mode){
+    currentMode = mode;
+    ['practice','timed','challenge'].forEach(m=>{
+      $('#mode-'+m).classList.toggle('active', m===mode);
+    });
+    clearCountdown(); els.problemTimer.textContent = '--';
+  }
+
+  window.toggleAutoMode = function(){
+    autoMode = !autoMode; els.autoToggle.classList.toggle('active', autoMode); save();
+  }
+
+  window.changeDifficulty = function(delta, silent=false){
+    const d0 = difficulty;
+    difficulty = clamp(difficulty + delta, 1, 10);
+    els.level.textContent = difficulty;
+    if(!silent && d0!==difficulty){ pulse(els.level); }
+    save();
+  }
+
+  // ----- COMPTEUR "timed" -----
+  function startCountdown(){
+    remainingSeconds = 10 + difficulty*3; // ajustable
+    els.problemTimer.textContent = remainingSeconds;
+    timedCountdown = setInterval(()=>{
+      remainingSeconds--; els.problemTimer.textContent = remainingSeconds;
+      if(remainingSeconds<=0){
+        clearCountdown(); timeoutFlag = true; window.checkAnswer();
+      }
+    }, 1000);
+  }
+  function clearCountdown(){ if(timedCountdown){ clearInterval(timedCountdown); timedCountdown=null; } }
+
+  // ----- STATS / UI -----
+  function updateStats(){
+    const acc = total? (sessionCorrect/total)*100 : 0;
+    els.score.textContent = score; els.streak.textContent = streak; els.total.textContent = total;
+    els.accuracy.textContent = acc.toFixed(0)+"%"; els.progressFill.style.width = acc.toFixed(0)+"%";
+    $('#session-correct').textContent = sessionCorrect;
+  }
+
+  function addToHistory(p, userAns, ok, t){
+    const item = document.createElement('div');
+    item.className = 'history-item ' + (ok? 'correct':'incorrect');
+    item.innerHTML = `<span>${p.num1} ${p.operator} ${p.num2} = <b>${p.answer}</b></span><span>${ok? '✔️':'✖️'} · ${isNaN(userAns)?'—':userAns} · ${t}s</span>`;
+    const empty = els.history.querySelector('div[style]'); if(empty) empty.remove();
+    els.history.prepend(item);
+    while(els.history.children.length>50){ els.history.lastElementChild.remove(); }
+  }
+
+  function checkAchievements({isCorrect, responseTime}){
+    if(score>=1) unlock('first');
+    if(streak>=5) unlock('streak5');
+    if(streak>=10) unlock('streak10');
+    if(isCorrect && responseTime<=3) unlock('fast');
+    if(lastResults.length===10 && lastResults.every(Boolean)) unlock('perfect10');
+    if(total>=50) unlock('total50');
+  }
+  function unlock(id){
+    const el = document.querySelector(`.achievement-item[data-id="${id}"]`);
+    if(el && el.classList.contains('locked')){ el.classList.remove('locked'); el.classList.add('unlocked'); pulse(el); }
+  }
+
+  function feedbackOK(){
+    const msg = pick(ENCOURAGEMENTS);
+    els.feedback.textContent = msg; els.feedback.className = 'feedback correct';
+    const starCount = Math.min(streak, 5);
+    els.stars.innerHTML = Array.from({length:starCount},()=>'<span class="star">⭐</span>').join('');
+    setTimeout(()=>{ els.stars.querySelectorAll('.star').forEach((s,i)=> setTimeout(()=>s.classList.add('animate'), i*80)); }, 50);
+  }
+  function feedbackKO(msg){ els.feedback.textContent = msg; els.feedback.className = 'feedback incorrect'; els.stars.innerHTML=''; }
+
+  function updateTime(){
+    const now = new Date();
+    els.time.textContent = now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const s = Math.floor((Date.now()-sessionStartTime)/1000); const m = Math.floor(s/60), r = s%60;
+    els.sessionTime.textContent = `${m}:${String(r).padStart(2,'0')}`;
+    if(problemStartTime && !timedCountdown && currentMode!=='timed'){
+      els.problemTimer.textContent = Math.floor((Date.now()-problemStartTime)/1000);
+    }
+  }
+
+  // ----- EFFETS -----
+  function createConfetti(n=120){
+    const cont = els.celebration;
+    for(let i=0;i<n;i++){
+      const d = document.createElement('div'); d.className='confetti';
+      d.style.left = Math.random()*100 + 'vw'; d.style.background = `hsl(${Math.random()*360},90%,60%)`;
+      d.style.animationDelay = (Math.random()*2000)+'ms'; cont.appendChild(d);
+      setTimeout(()=> d.remove(), 3200);
+    }
+  }
+  function pulse(el){ el.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:280,easing:'ease-out'}); }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function r(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+  function clamp(x,lo,hi){ return Math.max(lo, Math.min(hi,x)); }
+
+  // ----- CLAVIERS -----
+  els.answer.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !els.checkBtn.disabled) checkAnswer(); });
+
+  // prêt
+  save();
+})();
+</script>
+</body>
+</html>
